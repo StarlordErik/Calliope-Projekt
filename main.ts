@@ -24,15 +24,15 @@ function SnakeFrisstWenn (snakeIstAufSnack: boolean) {
 function snakeWirdVomMagnetenBewegt () {
     if (Math.abs(input.magneticForce(Dimension.X)) > Math.abs(input.magneticForce(Dimension.Y))) {
         if (input.magneticForce(Dimension.X) > 0) {
-            SnakeMini.change(LedSpriteProperty.X, 1)
+            snakeBewegtSichNachRechts()
         } else {
-            SnakeMini.change(LedSpriteProperty.X, -1)
+            snakeBewegtSichNachLinks()
         }
     } else {
         if (input.magneticForce(Dimension.Y) > 0) {
-            SnakeMini.change(LedSpriteProperty.Y, 1)
+            snakeBewegtSichNachOben()
         } else {
-            SnakeMini.change(LedSpriteProperty.Y, -1)
+            snakeBewegtSichNachUnten()
         }
     }
 }
@@ -62,13 +62,13 @@ function snakeMerktSichDieRichtung () {
 }
 function snakeBewegtSichInDieGemerkteRichtung () {
     if (Richtung == 0) {
-        SnakeMini.change(LedSpriteProperty.Y, 1)
+        snakeBewegtSichNachOben()
     } else if (Richtung == 1) {
-        SnakeMini.change(LedSpriteProperty.X, 1)
+        snakeBewegtSichNachRechts()
     } else if (Richtung == 2) {
-        SnakeMini.change(LedSpriteProperty.Y, -1)
+        snakeBewegtSichNachUnten()
     } else {
-        SnakeMini.change(LedSpriteProperty.X, -1)
+        snakeBewegtSichNachLinks()
     }
 }
 function snakeBewegtSich () {
@@ -81,10 +81,16 @@ function snakeBewegtSich () {
         schattenFolgtSnake()
     }
 }
+function snakeBewegtSichNachUnten () {
+    SnakeMini.change(LedSpriteProperty.Y, -1)
+}
 function brichDasSpielAbWenn (knopfGedrückt: boolean) {
     if (knopfGedrückt) {
         übrigeSpieldauer += übrigeSpieldauer * -1
     }
+}
+function snakeBewegtSichNachOben () {
+    SnakeMini.change(LedSpriteProperty.Y, 1)
 }
 function initialisiereSpiel () {
     basic.showNumber(3)
@@ -98,6 +104,12 @@ function initialisiereSpiel () {
     Richtung = randint(0, 3)
     übrigeSpieldauer = 30
 }
+function snakeBewegtSichNachLinks () {
+    SnakeMini.change(LedSpriteProperty.X, -1)
+}
+function snakeBewegtSichNachRechts () {
+    SnakeMini.change(LedSpriteProperty.X, 1)
+}
 let Richtung = 0
 let yDifferenz = 0
 let xDifferenz = 0
@@ -108,9 +120,3 @@ let SnakeMini: game.LedSprite = null
 let Schatten: game.LedSprite = null
 let Magnetgrenzwert = 0
 Magnetgrenzwert = 400
-let Richtungsmapping = [
-"oben",
-"rechts",
-"unten",
-"links"
-]
