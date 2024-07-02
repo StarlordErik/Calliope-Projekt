@@ -1,3 +1,20 @@
+function snakeOrientiertSichNachMagnetWenn (magnetIstNahGenug: boolean) {
+    if (magnetIstNahGenug) {
+        if (Math.abs(input.magneticForce(Dimension.X)) > Math.abs(input.magneticForce(Dimension.Y))) {
+            if (input.magneticForce(Dimension.X) > 0) {
+                Richtung = rechts
+            } else {
+                Richtung = links
+            }
+        } else {
+            if (input.magneticForce(Dimension.Y) > 0) {
+                Richtung = oben
+            } else {
+                Richtung = unten
+            }
+        }
+    }
+}
 function schattenFolgtSnake () {
     basic.pause(150)
     Schatten.set(LedSpriteProperty.X, Snake.get(LedSpriteProperty.X))
@@ -14,21 +31,6 @@ input.onButtonEvent(Button.A, input.buttonEventClick(), function () {
     }
     beendeSpiel()
 })
-function snakeOrientiertSichNachMagnet () {
-    if (Math.abs(input.magneticForce(Dimension.X)) > Math.abs(input.magneticForce(Dimension.Y))) {
-        if (input.magneticForce(Dimension.X) > 0) {
-            Richtung = rechts
-        } else {
-            Richtung = links
-        }
-    } else {
-        if (input.magneticForce(Dimension.Y) > 0) {
-            Richtung = oben
-        } else {
-            Richtung = unten
-        }
-    }
-}
 function beendeSpiel () {
     Snake.delete()
     Schatten.delete()
@@ -53,9 +55,7 @@ function snakeFrisstWenn (snakeIstAufSnack: boolean) {
     }
 }
 function snakeBewegtSich () {
-    if (Math.abs(input.magneticForce(Dimension.X)) > Magnetgrenzwert || Math.abs(input.magneticForce(Dimension.Y)) > Magnetgrenzwert) {
-        snakeOrientiertSichNachMagnet()
-    }
+    snakeOrientiertSichNachMagnetWenn(Math.abs(input.magneticForce(Dimension.X)) > Magnetgrenzwert || Math.abs(input.magneticForce(Dimension.Y)) > Magnetgrenzwert)
     snakeBewegtSichGeraudeaus()
     schattenFolgtSnake()
 }
@@ -84,11 +84,11 @@ function starteSpiel () {
 }
 // Das hier kann größtenteils ignoriert werden.
 let Punkte = 0
-let Richtung = 0
 let Snack: game.LedSprite = null
 let übrigeSpieldauer = 0
 let Snake: game.LedSprite = null
 let Schatten: game.LedSprite = null
+let Richtung = 0
 let unten = 0
 let links = 0
 let oben = 0
